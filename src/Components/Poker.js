@@ -1,6 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-restricted-globals */
-/* eslint-disable no-unused-vars */
+
 import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
 import queryString from "query-string";
@@ -32,6 +30,7 @@ const Poker = () => {
   const [users, setUsers] = useState("");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const [isDescription, setIsDescription] = useState(true);
 
   const [hand, setHand] = useState([]);
   const [hand2, setHand2] = useState([]);
@@ -66,17 +65,11 @@ const Poker = () => {
       setCardVal([...cardVale, element]);
     });
     console.log(cardVales);
-    // setCardVal(...cardVal,cardVal);
 
     socket.emit("join", { name, room, cardVale }, (error) => {
-      // if (error) {
-      //   alert(error);
-      //   // setBackerror('1');
-      // }
     });
   }, [socket, location.search]);
   useEffect(() => { }, [socket]);
-  //Chat
 
   useEffect(() => {
     if(!coffeeon){
@@ -93,7 +86,6 @@ const Poker = () => {
   }
   }, []);
 
-  //cards
   useEffect(() => {
     if(!coffeeon){
     addCards();
@@ -119,7 +111,7 @@ const Poker = () => {
 
   }, [socket]);
 
-  //goback reset
+  
 
   const goback = () => {
     console.log("Reset");
@@ -143,7 +135,7 @@ const Poker = () => {
     setHand((prevValues) => prevValues.filter((e) => e !== value));
     setPlaced(value);
     setFlag(1);
-    //Unmount required
+    
     console.log('selected')
   };
 
@@ -155,7 +147,7 @@ const Poker = () => {
     }
   }
   };
-  //Name Functions
+
   function handleFlag(e) {
     setName(value);
     setOn(!on);
@@ -179,10 +171,7 @@ const Poker = () => {
     else {
       setCoffeeOn(false)
       socket.emit("join", { name, room, cardVale }, (error) => {
-        // if (error) {
-        //   alert(error);
-        //   // setBackerror('1');
-        // }
+        
       });
       socket.open();
       history.push(`/poker?name=${name}&room=${room}&cardVale=${series}`, {
@@ -239,33 +228,37 @@ const Poker = () => {
     }
     return (<RemoveLog />);
   }
-  const showUsers = () => {
-    if(!coffeeon){
-    socket.emit('getusers', { name, room }, (error) => {
-      // if(error) {
-      //   alert(error);
-      // }
-    });
-  }
-  }
-  const [linkChange, setLinkChange] = useState('');
-  const [showLinks, setShowLinks] = useState(true);
-  const [showJira, setShowJira] = useState(true);
-  const sendJira = (event) => {
-    event.preventDefault();
-    if(!coffeeon){
-    if (linkChange) {
-      socket.emit("jira", linkChange)
-    }
-  }
-  }
+ 
+const showUsers = () =>{
+  
+  socket.emit('getusers', { name, room }, (error) => {
+  });
+
+}
+const [linkChange, setLinkChange] = useState('');
+const [showLinks, setShowLinks] = useState(true);
+const [showJira, setShowJira] = useState(true);
+const [isJira, setIsJira] = useState(true);
+const sendJira = (event) =>{
+  event.preventDefault();
+  
+  if(linkChange){
+      socket.emit("jira",linkChange)
+  }}
   useEffect(() => {
     if(!coffeeon){
     socket.on("jira", (data) => {
       setLinkChange(data);
-    })
+  })}
+},[socket])
+useEffect(()=>{
+  console.log(linkChange);
+  if(linkChange.length){
+    setIsJira(false);
+  }else{
+    setIsJira(true);
   }
-  }, [socket])
+},[linkChange])
 
   return (
     <div
@@ -322,29 +315,33 @@ const Poker = () => {
             <button className="btn Jira-button" onClick={(event) => { setShowLinks(true); setShowJira(false); sendJira(event) }}>Enter</button>
           </div>
         </div>
-        <div className="storyDes ">
-          <StoryDescription socket={socket} coffeeon={coffeeon}/>
-        </div>
-        <div className={flags === 1 ? "disconnect" : "connect"}>
-          <Cofee onClick={() => cafe()} />
-        </div>
+      <div className="storyDes ">
+      
+        <StoryDescription socket={socket} setIsDescription={setIsDescription} />
+      </div>
+      <div className={flags===1 ? "disconnect" : "connect"}>
+        <Cofee onClick={() =>cafe()}/>
+      </div>
 
         {flag !== 1 ? (
           <div className="Cards">
             <div className="cardK" role="group" aria-labelledby="cardgroup">
               <label id="cardgroup" className="sr-only">Pointer stories</label>
-              {hand.map((value, index) => (
-                <Card
-                  key={value}
-                  index={index}
-                  value={value}
-                  onClick={() => { if(!coffeeon){removeCard(value); showUsers()} }}
-                />
-              ))
-              }
-            </div>
-          </div>
-        )
+            {hand.map((value, index) => (
+              <Card
+                key={value}
+                index={index}
+                value={value}
+                // TODO: Change by ayush
+                isDescription={isDescription}
+                isJira={isJira}
+                onClick={() => {removeCard(value);showUsers()}}
+              />
+            ))
+            }
+          </div>  
+      </div>
+          )
           :
           (
             <Table
