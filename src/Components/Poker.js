@@ -1,4 +1,6 @@
-
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-restricted-globals */
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
 import queryString from "query-string";
@@ -30,6 +32,7 @@ const Poker = () => {
   const [users, setUsers] = useState("");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  // TODO: Change by ayush
   const [isDescription, setIsDescription] = useState(true);
 
   const [hand, setHand] = useState([]);
@@ -65,11 +68,17 @@ const Poker = () => {
       setCardVal([...cardVale, element]);
     });
     console.log(cardVales);
+    // setCardVal(...cardVal,cardVal);
 
     socket.emit("join", { name, room, cardVale }, (error) => {
+      // if (error) {
+      //   alert(error);
+      //   // setBackerror('1');
+      // }
     });
   }, [socket, location.search]);
   useEffect(() => { }, [socket]);
+  //Chat
 
   useEffect(() => {
     if(!coffeeon){
@@ -86,6 +95,7 @@ const Poker = () => {
   }
   }, []);
 
+  //cards
   useEffect(() => {
     if(!coffeeon){
     addCards();
@@ -111,7 +121,7 @@ const Poker = () => {
 
   }, [socket]);
 
-  
+  //goback reset
 
   const goback = () => {
     console.log("Reset");
@@ -135,7 +145,7 @@ const Poker = () => {
     setHand((prevValues) => prevValues.filter((e) => e !== value));
     setPlaced(value);
     setFlag(1);
-    
+    //Unmount required
     console.log('selected')
   };
 
@@ -147,7 +157,7 @@ const Poker = () => {
     }
   }
   };
-
+  //Name Functions
   function handleFlag(e) {
     setName(value);
     setOn(!on);
@@ -171,7 +181,10 @@ const Poker = () => {
     else {
       setCoffeeOn(false)
       socket.emit("join", { name, room, cardVale }, (error) => {
-        
+        // if (error) {
+        //   alert(error);
+        //   // setBackerror('1');
+        // }
       });
       socket.open();
       history.push(`/poker?name=${name}&room=${room}&cardVale=${series}`, {
@@ -229,9 +242,14 @@ const Poker = () => {
     return (<RemoveLog />);
   }
  
+ 
+
 const showUsers = () =>{
   
   socket.emit('getusers', { name, room }, (error) => {
+    // if(error) {
+    //   alert(error);
+    // }
   });
 
 }
@@ -244,7 +262,8 @@ const sendJira = (event) =>{
   
   if(linkChange){
       socket.emit("jira",linkChange)
-  }}
+  }
+}
   useEffect(() => {
     if(!coffeeon){
     socket.on("jira", (data) => {
@@ -332,7 +351,7 @@ useEffect(()=>{
                 key={value}
                 index={index}
                 value={value}
-                // TODO: Change by ayush
+               
                 isDescription={isDescription}
                 isJira={isJira}
                 onClick={() => {removeCard(value);showUsers()}}
@@ -372,5 +391,6 @@ useEffect(()=>{
     </div>
   );
 };
-
+  
 export default Poker;
+  
