@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+
 
 // Cards
 import Card1 from '../assets/Cards/Horizontal/Group7094.svg'
@@ -72,24 +72,7 @@ const  Content= () => {
      
    }
    
-  //  const validate = (e) => {
-  //     e.preventDefault()
-  //     const errors = {};
-  //     if (!name) {
-        
-  //       errors.name = "*User Name is required!";
-  //       setfocus(true);
-  //     }
-  //     if (!room) {
-  //       errors.room = "*Room ID is required!";
-  //       setfocus(true);
-  //     }
-  //     if (!cardVal) {
-  //       errors.cardval = "*Select the options!";
-  //       setfocus(true);
-  //     }
-  //    setFormErrors(errors);
-  //   };
+  
 
     const handleClick =( value) =>{    
        if(!value){
@@ -186,24 +169,7 @@ const  Content= () => {
                         <input className="Input2 form-control"type="text" aria-label="Enter Room ID" placeholder="Room ID" name="roomid" required onChange={(event) =>setRoom(event.target.value)}/>
                         <p className='formerror'>{formErrors.room}</p>
 
-                        {/* <input
-        type="text"
-        id="number-input-field"
-        inputMode="decimal"
-        onBlur={handleBlur}
-        onChange={handleChanges}
-        onFocus={handleFocus}
-        pattern="[0-9]+[A-Za-z]"
-        ref={ref}
-        style={style(error)}
-        value={userInput}
-      />
-      {showErrorText && (
-        <p role="alert" style={{ color: "rgb(255, 0, 0)" }}>
-          Please make sure you've entered a <em>number</em>
-        </p>
-      )}
-<br/> */}
+                       
                         <label htmlFor="react-select-3-input" className="sr-only">Select your Pattern</label>
                         <div className="selectCreate" >
                               <CreatableSelect
@@ -223,10 +189,7 @@ const  Content= () => {
                            <p id='formerror'>{formErrors.cardval}</p>
                            <p className="errstyle">{errors}</p>
                            <button type="submit" className="loginButton" aria-label="Submit" >Enter</button>
-                        {/* <Link className="atag" onClick={e => (!name || !room || !cardVal) ?  validate(e): null } to={`/poker?name=${name}&room=${room}&cardVale=${cardVal}`}>
-                     
                         
-                        </Link> */}
                      </form>
                     
                   </div>

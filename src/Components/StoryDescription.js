@@ -22,7 +22,7 @@ const StoryDescription = (props) => {
             setStor(data);
         })
       },[socket])
-      // TODO: Change by Ayush
+      
       useEffect(()=>{
         if(stor.length){
           props.setIsDescription(false);

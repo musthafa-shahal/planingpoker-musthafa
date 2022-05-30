@@ -57,10 +57,7 @@ div.selectCreate:focus{
 } 
 
 
-/* #Pointing-Poker-Dice{
-    position:absolute;
-    right: 10px;  
-    bottom: -20px; */
+
 
   input[type=text], select {
     width: 300px;
@@ -234,8 +231,7 @@ div.selectCreate:focus{
  align-self: center;
  justify-content: center;
  align-items: center;
- /* padding: auto; */
- /* height: 40px !important; */
+ 
  height: 40px;
  display: flex;
  padding: 0 !important;
@@ -244,11 +240,7 @@ div.selectCreate:focus{
 }
 
 .errstyle{
- /* color: red;
- align-self: center;
- justify-content: center;
- align-items: center;
- font-size: 13px; */
+ 
 
  color: red;
  margin-top: -15px;

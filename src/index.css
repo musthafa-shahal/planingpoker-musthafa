@@ -21,14 +21,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* .inputDiv{
-  margin-left:16.75px  !important;
-  margin-right:16.75px  !important;
-  }
 
-  button.chatButton{
-    margin-right:16.75px  !important;
-  } */
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
@@ -300,14 +293,7 @@ div.selectCreate{
     flex-direction: column;
     z-index: -20;
   }
-  /* .Cards{
-    display: flex;
-    height: 30% ;
-    width:100%;
-    flex-wrap:wrap;
-    flex-direction: column;
-    z-index: 1 !important;
-  } */
+  
   .Cards{
     
     /* max-width: 500px !important; */
@@ -337,11 +323,7 @@ div.selectCreate{
 }
 @media screen and (max-width: 1117px)
 {
-  /* .Title{
-    flex-direction: column !important;
-    align-items:center;
-    padding-top: 30px;
-  } */
+  
   .Share{
     margin-right: 0px !important;
   }

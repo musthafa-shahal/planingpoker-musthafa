@@ -32,7 +32,6 @@ const Poker = () => {
   const [users, setUsers] = useState("");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
-  // TODO: Change by ayush
   const [isDescription, setIsDescription] = useState(true);
 
   const [hand, setHand] = useState([]);
