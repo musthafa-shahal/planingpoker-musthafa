@@ -32,6 +32,7 @@ const Poker = () => {
   const [users, setUsers] = useState("");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const [isDescription, setIsDescription] = useState(true);
 
   const [hand, setHand] = useState([]);
   const [hand2, setHand2] = useState([]);
@@ -239,33 +240,43 @@ const Poker = () => {
     }
     return (<RemoveLog />);
   }
-  const showUsers = () => {
-    if(!coffeeon){
-    socket.emit('getusers', { name, room }, (error) => {
-      // if(error) {
-      //   alert(error);
-      // }
-    });
+ 
+ 
+
+const showUsers = () =>{
+  
+  socket.emit('getusers', { name, room }, (error) => {
+    // if(error) {
+    //   alert(error);
+    // }
+  });
+
+}
+const [linkChange, setLinkChange] = useState('');
+const [showLinks, setShowLinks] = useState(true);
+const [showJira, setShowJira] = useState(true);
+const [isJira, setIsJira] = useState(true);
+const sendJira = (event) =>{
+  event.preventDefault();
+  
+  if(linkChange){
+      socket.emit("jira",linkChange)
   }
-  }
-  const [linkChange, setLinkChange] = useState('');
-  const [showLinks, setShowLinks] = useState(true);
-  const [showJira, setShowJira] = useState(true);
-  const sendJira = (event) => {
-    event.preventDefault();
-    if(!coffeeon){
-    if (linkChange) {
-      socket.emit("jira", linkChange)
-    }
-  }
-  }
+}
   useEffect(() => {
     if(!coffeeon){
     socket.on("jira", (data) => {
       setLinkChange(data);
-    })
+  })}
+},[socket])
+useEffect(()=>{
+  console.log(linkChange);
+  if(linkChange.length){
+    setIsJira(false);
+  }else{
+    setIsJira(true);
   }
-  }, [socket])
+},[linkChange])
 
   return (
     <div
@@ -322,29 +333,33 @@ const Poker = () => {
             <button className="btn Jira-button" onClick={(event) => { setShowLinks(true); setShowJira(false); sendJira(event) }}>Enter</button>
           </div>
         </div>
-        <div className="storyDes ">
-          <StoryDescription socket={socket} coffeeon={coffeeon}/>
-        </div>
-        <div className={flags === 1 ? "disconnect" : "connect"}>
-          <Cofee onClick={() => cafe()} />
-        </div>
+      <div className="storyDes ">
+      
+        <StoryDescription socket={socket} setIsDescription={setIsDescription} />
+      </div>
+      <div className={flags===1 ? "disconnect" : "connect"}>
+        <Cofee onClick={() =>cafe()}/>
+      </div>
 
         {flag !== 1 ? (
           <div className="Cards">
             <div className="cardK" role="group" aria-labelledby="cardgroup">
               <label id="cardgroup" className="sr-only">Pointer stories</label>
-              {hand.map((value, index) => (
-                <Card
-                  key={value}
-                  index={index}
-                  value={value}
-                  onClick={() => { if(!coffeeon){removeCard(value); showUsers()} }}
-                />
-              ))
-              }
-            </div>
-          </div>
-        )
+            {hand.map((value, index) => (
+              <Card
+                key={value}
+                index={index}
+                value={value}
+               
+                isDescription={isDescription}
+                isJira={isJira}
+                onClick={() => {removeCard(value);showUsers()}}
+              />
+            ))
+            }
+          </div>  
+      </div>
+          )
           :
           (
             <Table
@@ -375,5 +390,6 @@ const Poker = () => {
     </div>
   );
 };
-
+  
 export default Poker;
+  
