@@ -17,13 +17,12 @@
     box-shadow: none !important;
 }
 
-#react-select-3-placeholder{
-    background-color: white;
-}
+[id*='react-select-']:focus{
 
- #react-select-3-input:focus{
-   outline: none !important;
+    outline: none!important;
+
     box-shadow: none !important;
+
 }
 
 

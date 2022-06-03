@@ -170,7 +170,7 @@ const  Content= () => {
                         <p className='formerror'>{formErrors.room}</p>
 
                        
-                        <label htmlFor="react-select-3-input" className="sr-only">Select your Pattern</label>
+                        <label id="react-select-input" className="sr-only">Select your Pattern</label>
                         <div className="selectCreate" >
                               <CreatableSelect
                            
