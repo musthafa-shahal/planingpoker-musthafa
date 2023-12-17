@@ -25,8 +25,8 @@ import '../Components/content.css'
 
 const options = [
    
-   { value: ["0","1","2","3","5","7","13","?"], label: "Fibb [0,1,2,3,5,7,13,?]" },
-   { value: ["0","1","2","3","5","7","13","?"], label: "Modified Fibb [0,0.5,2,3,5,8,13,?]" },
+   { value: ["0","1","2","3","5","8","13","?"], label: "Fibb [0,1,2,3,5,8,13,?]" },
+   { value: ["0","1","2","3","5","8","13","?"], label: "Modified Fibb [0,0.5,2,3,5,8,13,?]" },
   
  ];
 const  Content= () => {
