@@ -29,9 +29,9 @@ const io = new Server(server, {
 io.on("connection", function (socket) {
     //Join into the room
 
-    socket.on('join', ({ name, room, cardVale }, callback) => {
+    socket.on('join', ({ name, room,roomOwner, cardVale}, callback) => {
         console.log(cardVale);
-        const { error, user } = addUser({ id: socket.id, name, room, cardVale });
+        const { error, user } = addUser({ id: socket.id, name, room, roomOwner, cardVale });
         if (error) return callback(error);
         console.log(socket.id);
         console.log(user);
@@ -110,5 +110,4 @@ io.on("connection", function (socket) {
         console.log(roomUser);
         io.sockets.emit("playerdet", roomUser.length);
     });
-
 });

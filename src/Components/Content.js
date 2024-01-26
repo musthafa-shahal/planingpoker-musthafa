@@ -68,7 +68,8 @@ const  Content= () => {
      if( !cardVal )
         setErrors("*Select the options!" )
      else
-        history.push(`/poker?name=${name}&room=${room}&cardVale=${cardVal}`)
+        var roomOwner = true;
+        history.push(`/poker?name=${name}&room=${room}&roomOwner=${roomOwner}&cardVale=${cardVal}`)
      
    }
    

@@ -9,6 +9,7 @@ const Result = (props) => {
     var result =0;
     var index =0;
     var flag = 0;
+    let roomOwner = props.roomOwner;
     
     finalinputs.forEach(element => {
         total+=parseInt(element);
@@ -27,7 +28,7 @@ const Result = (props) => {
       <div className="result">
         <label  className="outcome">The result is {result}</label>
           {/* <p id="resultTot" className="outcome">The result is : {result}</p> */}
-          <button className="send" onClick={props.goback}>Go Back</button>
+          { roomOwner == 'true' ? (<button className="send" onClick={props.goback}>Go Back</button>): (<></>)}
       </div>
     );
   };
