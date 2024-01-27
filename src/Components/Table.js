@@ -47,6 +47,7 @@ const Table = (props) =>{
                             valuelist = {valuelist}
                             goback = {props.goback}
                             coffeeon={coffeeon}
+                            roomOwner= {props.roomOwner}
                             />
                         ):(<p></p>)}
               </div>

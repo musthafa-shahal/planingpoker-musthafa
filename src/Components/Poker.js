@@ -27,6 +27,7 @@ var value = "";
 const Poker = () => {
   const history = useHistory();
   var [name, setName] = useState("");
+  let [roomOwner, setRoomOwner] = useState(false)
   const [room, setRoom] = useState("");
   var [cardVale, setCardVal] = useState([""]);
   const [users, setUsers] = useState("");
@@ -51,10 +52,12 @@ const Poker = () => {
   const [valuelist, setValuelist] = useState([]);
 
   useEffect(() => {
-    var { name, room, cardVale } = queryString.parse(location.search);
-
+    var { name, room, cardVale, roomOwner } = queryString.parse(location.search);
+    roomOwner = roomOwner ? roomOwner : false;
+    // console.log("The room Owner Param is",roomOwner)
     setRoom(room);
     setName(name);
+    setRoomOwner(roomOwner)
     if (!name) {
       setNoName(true);
     }
@@ -69,12 +72,17 @@ const Poker = () => {
     console.log(cardVales);
     // setCardVal(...cardVal,cardVal);
 
-    socket.emit("join", { name, room, cardVale }, (error) => {
+    socket.emit("join", { name, room, roomOwner, cardVale }, (error) => {
       // if (error) {
       //   alert(error);
       //   // setBackerror('1');
       // }
     });
+    if (roomOwner) {
+      socket.on("admin", () => {
+        console.log("The admin user");
+      });
+    }
   }, [socket, location.search]);
   useEffect(() => { }, [socket]);
   //Chat
@@ -161,12 +169,12 @@ const Poker = () => {
     setName(value);
     setOn(!on);
     console.log(value);
-    history.push(`/poker?name=${value}&room=${room}&cardVale=${series}`, {
+    history.push(`/poker?name=${value}&room=${room}&roomOwner=${roomOwner}&cardVale=${series}`, {
       some: "state",
     });
   }
   const cafe = () => {
-    var { name, room, cardVale } = queryString.parse(location.search);
+    var { name, room, roomOwner, cardVale } = queryString.parse(location.search);
 
     console.log(flags)
     if (flags === 0) {
@@ -179,14 +187,14 @@ const Poker = () => {
     }
     else {
       setCoffeeOn(false)
-      socket.emit("join", { name, room, cardVale }, (error) => {
+      socket.emit("join", { name, room,roomOwner, cardVale }, (error) => {
         // if (error) {
         //   alert(error);
         //   // setBackerror('1');
         // }
       });
       socket.open();
-      history.push(`/poker?name=${name}&room=${room}&cardVale=${series}`, {
+      history.push(`/poker?name=${name}&room=${room}&roomOwner=${roomOwner}&cardVale=${series}`, {
         some: "state",
       });
       console.log("connect")
@@ -308,9 +316,6 @@ useEffect(()=>{
               <li className="nav-item">
                 <ShareLink room={room} cardVal={cardVale} />
               </li>
-
-
-
             </ul>
           </div>
 
@@ -326,7 +331,7 @@ useEffect(()=>{
               <p className="LinkChange">{linkChange}</p>
             </a>
             <label htmlFor="Jira-pencil" className="sr-only" >Jira Link Edit</label>
-            <button aria-label="Jira Link Edit" id="Jira-pencil" className="btn rounded" onClick={() => setShowLinks(false)}>  <i className="fa fa-pencil" ></i></button>
+            {roomOwner=='true' && <button aria-label="Jira Link Edit" id="Jira-pencil" className="btn rounded" onClick={() => setShowLinks(false)}>  <i className="fa fa-pencil" ></i></button>}
           </div>
           <div className={showLinks ? "dispnone" : "Jira-link"}>
             <input type="text" className="Jira-Text" value={linkChange} onChange={({ target: { value } }) => setLinkChange(value)} />
@@ -335,45 +340,45 @@ useEffect(()=>{
         </div>
       <div className="storyDes ">
       
-        <StoryDescription socket={socket} setIsDescription={setIsDescription} />
+        <StoryDescription socket={socket} setIsDescription={setIsDescription} roomOwner={roomOwner}/>
       </div>
       <div className={flags===1 ? "disconnect" : "connect"}>
         <Cofee onClick={() =>cafe()}/>
       </div>
-
-        {flag !== 1 ? (
-          <div className="Cards">
-            <div className="cardK" role="group" aria-labelledby="cardgroup">
-              <label id="cardgroup" className="sr-only">Pointer stories</label>
-            {hand.map((value, index) => (
-              <Card
-                key={value}
-                index={index}
-                value={value}
-               
-                isDescription={isDescription}
-                isJira={isJira}
-                onClick={() => {removeCard(value);showUsers()}}
+          {flag !== 1 ? (
+            <div className="Cards">
+              <div className="cardK" role="group" aria-labelledby="cardgroup">
+                <label id="cardgroup" className="sr-only">Pointer stories</label>
+              {hand.map((value, index) => (
+                <Card
+                  key={value}
+                  index={index}
+                  value={value}
+                 
+                  isDescription={isDescription}
+                  isJira={isJira}
+                  onClick={() => {removeCard(value);showUsers()}}
+                />
+              ))
+              }
+            </div>  
+        </div>
+            )
+            :
+            (
+              <Table
+                hand={hand2}
+                value={placed}
+                socket={socket}
+                usersnum={numberofuser}
+                goback={goback}
+                users={users}
+                valuelist={valuelist}
+                setValuelist={setValuelist}
+                coffeeon={coffeeon}
+                roomOwner = {roomOwner}
               />
-            ))
-            }
-          </div>  
-      </div>
-          )
-          :
-          (
-            <Table
-              hand={hand2}
-              value={placed}
-              socket={socket}
-              usersnum={numberofuser}
-              goback={goback}
-              users={users}
-              valuelist={valuelist}
-              setValuelist={setValuelist}
-              coffeeon={coffeeon}
-            />
-          )}
+            )}
 
         <div className="Hamburgericon" >
           <Hamburger
