@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 const StoryDescription = (props) => {
     const socket = props.socket;
     const coffeeon = props.coffeeon;
+    let roomOwner = props.roomOwner;
     const [stor,setStor] = useState('');
     const sendStory = (event) =>{
         event.preventDefault();
@@ -44,7 +45,7 @@ const StoryDescription = (props) => {
               onChange={({ target: { value } }) => { if(!coffeeon){setStor(value)}}}
               onKeyPress={(event) => event.key === 'Enter' ? (event)=> { if(!coffeeon){sendStory(event)}} : null}
               ></textarea>
-              <button className="btn sendButtons" onClick={(e) =>{if(!coffeeon){ sendStory(e)}}} >Send</button>
+              {roomOwner == 'true' ? (<button className="btn sendButtons" onClick={(e) =>{if(!coffeeon){ sendStory(e)}}} >Send</button>): (<></>)}
               </form>
             </div>
 

@@ -1,6 +1,6 @@
 var users = [];
 
-const addUser = ({ id, name, room, cardVale }) => {
+const addUser = ({ id, name, room, roomOwner, cardVale }) => {
   name = name.trim().toLowerCase();
   room = room.trim().toLowerCase();
   cardVale = cardVale;
@@ -10,7 +10,7 @@ const addUser = ({ id, name, room, cardVale }) => {
   if(!name || !room) return { error: 'Username and room are required.' };
   if(existingUser) return { error: 'Username is taken.' };
 
-  const user = { id, name, room, cardVale, worth:'waiting'};
+  const user = { id, name, room,roomOwner, cardVale, worth:'waiting'};
 
   users.push(user);
 
