@@ -87,7 +87,7 @@ io.on("connection", function (socket) {
             }
       
             // Set a new 90-second timer
-            activeTimers[room] = setTimeout(() => timerCallback(room, socket.id), 90 * 1000);
+            activeTimers[room] = setTimeout(() => timerCallback(room, socket.id), 60 * 1000);
           } else if (data === 'false') {
             console.log("Ending Poll");
       

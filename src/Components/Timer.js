@@ -41,7 +41,7 @@ const Timer = ({ isPolling, coffeeon }) => {
 
   const getDeadTime = () => {
     let deadline = new Date();
-    deadline.setSeconds(deadline.getSeconds() + 90);
+    deadline.setSeconds(deadline.getSeconds() + 60);
     return deadline;
   };
 
